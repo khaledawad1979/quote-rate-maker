@@ -5,6 +5,7 @@ import { ApiDocumentation } from "@/components/ApiDocumentation";
 
 export interface RatingResponse {
   premium: number;
+  quoteId: string;
   breakdown?: {
     baseRate: number;
     stateMultiplier: number;
