@@ -1,0 +1,831 @@
+{
+  "info": {
+    "name": "Rating Engine API Tests",
+    "_postman_id": "rating-engine-tests-001",
+    "description": "Comprehensive test suite for the Rating Engine API including valid requests, invalid inputs, and edge cases.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://pbosqyrfvagrcxozvczs.supabase.co/functions/v1",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBib3NxeXJmdmFncmN4b3p2Y3pzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4NTg0MzMsImV4cCI6MjA4MDQzNDQzM30.mADitW5gSEZgs5yQ1j5Hkp1_-e4tSnl4scv7TUYRJek",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Valid Requests",
+      "item": [
+        {
+          "name": "Standard retail business in California",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(125.0);",
+                  "});",
+                  "",
+                  "pm.test('Response has quoteId', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.quoteId).to.match(/^Q-\\d{5}$/);",
+                  "});",
+                  "",
+                  "pm.test('Response has breakdown', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.breakdown).to.be.an('object');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Technology business in Georgia",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 80000,\n  \"state\": \"GA\",\n  \"business\": \"technology\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(128.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Restaurant in New York",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 100000,\n  \"state\": \"NY\",\n  \"business\": \"restaurant\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(420.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Construction in Texas",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 200000,\n  \"state\": \"TX\",\n  \"business\": \"construction\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(800.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Healthcare in Florida",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 75000,\n  \"state\": \"FL\",\n  \"business\": \"healthcare\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(224.25);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulting in Ohio (low multipliers)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 150000,\n  \"state\": \"OH\",\n  \"business\": \"consulting\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(199.5);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown state defaults to DEFAULT rate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 100000,\n  \"state\": \"ZZ\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium (DEFAULT rate)', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(200.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown business defaults to DEFAULT multiplier",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 100000,\n  \"state\": \"CA\",\n  \"business\": \"unknown\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has correct premium (DEFAULT multiplier)', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(250.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Case insensitive state (lowercase)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"ca\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Case insensitive state works', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(125.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Case insensitive business (uppercase)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"CA\",\n  \"business\": \"RETAIL\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Case insensitive business works', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(125.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Invalid Inputs",
+      "item": [
+        {
+          "name": "Missing revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Revenue is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing state",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('State is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing business",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"CA\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Business type is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Empty state string",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('State is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Empty business string",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"CA\",\n  \"business\": \"\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Business type is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Null revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": null,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message contains expected text', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Revenue is required');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Edge Cases",
+      "item": [
+        {
+          "name": "Zero revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 0,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Premium is 0 for zero revenue', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Negative revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": -50000,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message for negative revenue', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Revenue must be a positive number');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Very large revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 1000000000,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Handles large revenue correctly', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(2500000.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Decimal revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000.50,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Handles decimal revenue', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(125.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Small revenue",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 100,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Handles small revenue correctly', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.eql(0.25);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Revenue as string (invalid type)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": \"50000\",\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Error message for string revenue', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.error).to.include('Revenue must be a positive number');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Schema Validation",
+      "item": [
+        {
+          "name": "Validate response schema",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "apikey", "value": "{{apiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"revenue\": 50000,\n  \"state\": \"CA\",\n  \"business\": \"retail\"\n}"
+            },
+            "url": "{{baseUrl}}/rating-engine"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response has all required fields', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('premium');",
+                  "    pm.expect(jsonData).to.have.property('quoteId');",
+                  "});",
+                  "",
+                  "pm.test('Premium is a non-negative number', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.premium).to.be.a('number');",
+                  "    pm.expect(jsonData.premium).to.be.at.least(0);",
+                  "});",
+                  "",
+                  "pm.test('QuoteId matches expected format', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.quoteId).to.match(/^Q-\\d{5}$/);",
+                  "});",
+                  "",
+                  "pm.test('Breakdown has all expected fields', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.breakdown).to.have.property('baseRate');",
+                  "    pm.expect(jsonData.breakdown).to.have.property('stateMultiplier');",
+                  "    pm.expect(jsonData.breakdown).to.have.property('businessMultiplier');",
+                  "    pm.expect(jsonData.breakdown).to.have.property('revenue');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
