@@ -41,12 +41,18 @@ interface RatingRequest {
 
 interface RatingResponse {
   premium: number;
+  quoteId: string;
   breakdown?: {
     baseRate: number;
     stateMultiplier: number;
     businessMultiplier: number;
     revenue: number;
   };
+}
+
+function generateQuoteId(): string {
+  const randomNum = Math.floor(10000 + Math.random() * 90000);
+  return `Q-${randomNum}`;
 }
 
 serve(async (req) => {
@@ -109,8 +115,11 @@ serve(async (req) => {
 
     console.log('Premium calculated:', premium, 'for state:', stateUpper, 'business:', businessLower);
 
+    const quoteId = generateQuoteId();
+
     const response: RatingResponse = {
       premium,
+      quoteId,
       breakdown: {
         baseRate: stateRate,
         stateMultiplier: stateRate,

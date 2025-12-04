@@ -37,6 +37,12 @@ export function RatingResult({ result, isLoading }: RatingResultProps) {
           </div>
         ) : result ? (
           <div className="space-y-6">
+            {/* Quote ID */}
+            <div className="flex items-center justify-center gap-2 text-sm">
+              <span className="text-muted-foreground">Quote ID:</span>
+              <span className="font-mono font-semibold text-primary">{result.quoteId}</span>
+            </div>
+
             {/* Premium Display */}
             <div className="text-center py-6 px-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
               <p className="text-sm font-medium text-muted-foreground mb-2">Annual Premium</p>
